@@ -4,10 +4,13 @@ from django.shortcuts import render
 
 
 from django.contrib.auth.models import User, Group
+from djangoauth.auth.serializers import MyTokenObtainPairSerializer
+
 from rest_framework import viewsets
 from rest_framework import permissions
 from djangoauth.auth.serializers import UserSerializer, GroupSerializer
 
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -25,3 +28,6 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
