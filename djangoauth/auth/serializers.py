@@ -3,12 +3,10 @@ from rest_framework import serializers
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ['url', 'username', 'email', 'groups']
-
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -21,7 +19,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
 
         # Add custom claims
+        token['url'] = user.url
         token['username'] = user.username
-        
+        token['email'] = user.email
+        token['groups'] = user.groups
 
         return token
